@@ -1,10 +1,11 @@
+var counter = 0;
 function getImages() {
     var request = require('request');
     var url = require('url');
     var cheerio = require('cheerio');
     path = require('path')
     var fs = require('fs');
- 
+
     request("https://www.oregonlive.com/roadreport/index.ssf/2008/12/i5cams.html", function (error, response, body) {
         if (!error && response.statusCode == 200) {
             $ = cheerio.load(body)
@@ -14,13 +15,9 @@ function getImages() {
                 img_url = img.attribs.src
                 if (/^https?:\/\//.test(img_url)) {
                     img_name = path.basename(img_url)
-                    if (!fs.existsSync(path.join('Datasets', img_name))) {
-                        process.stdout.write(".");
-                        request(img_url).pipe(fs.createWriteStream(path.join('Datasets', img_name)))
-                    }
-                    else{
-                        // image exists
-                    }
+                    name = counter + "__" + img_name
+                    process.stdout.write(".");
+                    request(img_url).pipe(fs.createWriteStream(path.join('Datasets', name)))
                 }
             })
             console.log("Done!")
@@ -36,18 +33,15 @@ function getImages() {
                 img_url = img.attribs.src
                 if (/^https?:\/\//.test(img_url)) {
                     img_name = path.basename(img_url)
-                    if (!fs.existsSync(path.join('Datasets', img_name))) {
-                        process.stdout.write(".");
-                        request(img_url).pipe(fs.createWriteStream(path.join('Datasets', img_name)))
-                    }
-                    else{
-                        // image exists
-                    }
+                    name = counter + "__" + img_name
+                    process.stdout.write(".");
+                    request(img_url).pipe(fs.createWriteStream(path.join('Datasets', name)))
                 }
             })
             console.log("Done!")
         }
+        counter++;
     })
 }
 getImages();
-setInterval(getImages, 180000);
+setInterval(getImages, 1800000);

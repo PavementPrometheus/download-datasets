@@ -11,12 +11,11 @@ function getImages() {
             imgs = $('img').toArray()
             console.log("\nDownloading 1st...")
             imgs.forEach(function (img) {
-                //console.log(img.attribs.src)
-                process.stdout.write(".");
                 img_url = img.attribs.src
                 if (/^https?:\/\//.test(img_url)) {
                     img_name = path.basename(img_url)
                     if (!fs.existsSync(path.join('Datasets', img_name))) {
+                        process.stdout.write(".");
                         request(img_url).pipe(fs.createWriteStream(path.join('Datasets', img_name)))
                     }
                     else{
@@ -34,12 +33,11 @@ function getImages() {
             imgs = $('img').toArray()
             console.log("\nDownloading 2nd...")
             imgs.forEach(function (img) {
-                //console.log(img.attribs.src)
-                process.stdout.write(".");
                 img_url = img.attribs.src
                 if (/^https?:\/\//.test(img_url)) {
                     img_name = path.basename(img_url)
                     if (!fs.existsSync(path.join('Datasets', img_name))) {
+                        process.stdout.write(".");
                         request(img_url).pipe(fs.createWriteStream(path.join('Datasets', img_name)))
                     }
                     else{
